@@ -27,21 +27,24 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/check', [App\Http\Controllers\WebsiteCheckController::class, 'checkWebsiteStatus']);
+Route::get('/check/{id}', [App\Http\Controllers\WebsiteCheckController::class, 'checkWebsiteEveryMinute']);
 
 
 Route::middleware('auth')
     ->prefix('personal')
     ->name('personal.')
     ->group(function () {
-        Route::get('/', [App\Http\Controllers\WebsiteController::class, 'personal'])->name('index');
+        //Route::get('/', [App\Http\Controllers\WebsiteController::class, 'personal'])->name('index');
         Route::resource('website', App\Http\Controllers\WebsiteController::class)
             ->only([
                 'index', 'store', 'create'
             ]);
         Route::middleware('website.belongs.to.user')
-            ->resource('website', App\Http\Controllers\WebsiteController::class)
-            ->except([
-                'index', 'show', 'create', 'store'
-            ]);
+            ->group(function () {
+                Route::resource('website', App\Http\Controllers\WebsiteController::class)
+                    ->except(['index', 'create', 'store']);
+
+                Route::get('/website/{website}/chengeStatus', [App\Http\Controllers\WebsiteController::class, 'activate'])
+                ->name('website.activate');
+            });
     });

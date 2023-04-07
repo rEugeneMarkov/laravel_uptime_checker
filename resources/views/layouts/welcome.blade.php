@@ -19,7 +19,7 @@
             <li class="nav-item"><a href="{{ route('welcome') }}" class="nav-link {{ Route::currentRouteName() == 'welcome' ? 'active' : ''}}" aria-current="page">Home</a></li>
             <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Lod in</a></li>
             <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Register</a></li>
-            <li class="nav-item"><a href="{{ route('personal.index') }}" class="nav-link {{ Route::currentRouteName() == 'personal.index' ? 'active' : ''}}">Personal</a></li>
+            <li class="nav-item"><a href="{{ route('personal.website.index') }}" class="nav-link {{ Route::currentRouteName() == 'personal.website.index' ? 'active' : ''}}">Personal</a></li>
           </ul>
         </header>
       </div>

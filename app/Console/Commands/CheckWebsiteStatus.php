@@ -12,7 +12,7 @@ class CheckWebsiteStatus extends Command
      *
      * @var string
      */
-    protected $signature = 'check-site';
+    protected $signature = 'check-site {frequency}';
 
     /**
      * The console command description.
@@ -26,7 +26,8 @@ class CheckWebsiteStatus extends Command
      */
     public function handle()
     {
+        $frequency = $this->argument('frequency');
         $check = new WebsiteCheckController();
-        $check->checkWebsiteStatus();
+        $check->checkWebsite($frequency);
     }
 }

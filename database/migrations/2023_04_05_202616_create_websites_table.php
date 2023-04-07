@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('website');
             $table->string('email');
+            $table->string('status')->default('Active');
             $table->foreignId('frequency_id');
             $table->foreignId('user_id');
             $table->timestamps();

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Website;
+use App\Models\Frequency;
+use App\Services\CheckWebsiteService;
 use App\Http\Requests\WebsiteStoreRequest;
 use App\Http\Requests\WebsiteUpdateRequest;
-use App\Models\Frequency;
-use App\Models\Website;
-use Illuminate\Http\Request;
 
 class WebsiteController extends Controller
 {
@@ -15,7 +15,7 @@ class WebsiteController extends Controller
      */
     public function index()
     {
-        $websites = Website::where('user_id', '=', auth()->user()->id)->paginate(10);
+        $websites = Website::where('user_id', '=', auth()->user()->id)->get();
         return view('personal.index', compact('websites'));
     }
 
@@ -45,8 +45,7 @@ class WebsiteController extends Controller
      */
     public function show(Website $website)
     {
-        $frequencies = Frequency::all();
-        return view('personal.website.edit', compact('website', 'frequencies'));
+        return view('personal.show', compact('website'));
     }
 
     /**
@@ -79,9 +78,11 @@ class WebsiteController extends Controller
         return redirect()->route('personal.website.index');
     }
 
-    public function personal()
+    public function activate(Website $website)
     {
-        $websites = Website::where('user_id', '=', auth()->user()->id)->paginate(10);
-        return view('personal.index', compact('websites'));
+        $a = new CheckWebsiteService($website);
+        $a->chengeCheckStatus();
+
+        return redirect()->route('personal.website.show', compact('website'));
     }
 }
