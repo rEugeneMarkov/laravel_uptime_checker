@@ -26,15 +26,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/check/{id}', [App\Http\Controllers\WebsiteCheckController::class, 'checkWebsiteEveryMinute']);
-
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')
     ->prefix('personal')
     ->name('personal.')
     ->group(function () {
-        //Route::get('/', [App\Http\Controllers\WebsiteController::class, 'personal'])->name('index');
+        Route::get('/', [App\Http\Controllers\PersonalController::class, 'index'])->name('index');
+        Route::get('/profile', [App\Http\Controllers\PersonalController::class, 'profile'])->name('profile');
         Route::resource('website', App\Http\Controllers\WebsiteController::class)
             ->only([
                 'index', 'store', 'create'

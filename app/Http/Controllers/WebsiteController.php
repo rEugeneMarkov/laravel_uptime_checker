@@ -16,7 +16,7 @@ class WebsiteController extends Controller
     public function index()
     {
         $websites = Website::where('user_id', '=', auth()->user()->id)->get();
-        return view('personal.index', compact('websites'));
+        return view('personal.website.index', compact('websites'));
     }
 
     /**
@@ -25,7 +25,7 @@ class WebsiteController extends Controller
     public function create()
     {
         $frequencies = Frequency::all();
-        return view('personal.create', compact('frequencies'));
+        return view('personal.website.create', compact('frequencies'));
     }
 
     /**
@@ -45,7 +45,7 @@ class WebsiteController extends Controller
      */
     public function show(Website $website)
     {
-        return view('personal.show', compact('website'));
+        return view('personal.website.show', compact('website'));
     }
 
     /**
@@ -54,7 +54,7 @@ class WebsiteController extends Controller
     public function edit(Website $website)
     {
         $frequencies = Frequency::all();
-        return view('personal.edit', compact('website', 'frequencies'));
+        return view('personal.website.edit', compact('website', 'frequencies'));
     }
 
     /**
