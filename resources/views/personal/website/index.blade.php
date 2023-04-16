@@ -95,8 +95,8 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="row">
-                                
+                            <div>
+                                {{ $websites->links() }}
                             </div>
                         </div>
                     </div>

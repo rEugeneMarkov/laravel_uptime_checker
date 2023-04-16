@@ -2,27 +2,28 @@
 
 namespace App\Mail;
 
+use App\Models\Website;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class WebsiteStatusNotification extends Mailable
 {
     use Queueable;
     use SerializesModels;
 
-    public $website;
-    public $status;
+    public string $url;
+    public int $status;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($website, $status)
+    public function __construct(string $url, int $status)
     {
-        $this->website = $website;
+        $this->url = $url;
         $this->status = $status;
     }
 
@@ -44,7 +45,7 @@ class WebsiteStatusNotification extends Mailable
         return new Content(
             markdown: 'emails.status',
             with: [
-                'website' => $this->website,
+                'website' => $this->url,
                 'status' => $this->status,
             ],
         );

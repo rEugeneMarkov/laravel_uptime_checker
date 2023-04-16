@@ -12,6 +12,7 @@ class WebsiteCheckController extends Controller
         $websites = Website::where('frequency_id', '=', $frequencyId)
             ->where('status', '=', 'Active')
             ->get();
+
         foreach ($websites as $website) {
             CheckWebsiteJob::dispatch($website);
         }

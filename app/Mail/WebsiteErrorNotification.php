@@ -2,27 +2,28 @@
 
 namespace App\Mail;
 
+use App\Models\Website;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class WebsiteErrorNotification extends Mailable
 {
     use Queueable;
     use SerializesModels;
 
-    public $website;
-    public $error;
+    public string $url;
+    public string $error;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($website, $error)
+    public function __construct(string $url, string $error)
     {
-        $this->website = $website;
+        $this->url = $url;
         $this->error = $error;
     }
 
@@ -44,7 +45,7 @@ class WebsiteErrorNotification extends Mailable
         return new Content(
             markdown: 'emails.error',
             with: [
-                'website' => $this->website,
+                'website' => $this->url,
                 'error' => $this->error,
             ],
         );

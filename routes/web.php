@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Website;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +44,9 @@ Route::middleware('auth')
                 Route::resource('website', App\Http\Controllers\WebsiteController::class)
                     ->except(['index', 'create', 'store']);
 
-                Route::get('/website/{website}/chengeStatus', [App\Http\Controllers\WebsiteController::class, 'activate'])
-                ->name('website.activate');
+                Route::get('/website/{website}/changeStatus', function (Website $website) {
+                    App\Services\WebsiteCheckServices\WebsiteCheckStatusUpdater::updateStatus($website);
+                    return redirect()->route('personal.website.show', compact('website'));
+                })->name('website.activate');
             });
     });

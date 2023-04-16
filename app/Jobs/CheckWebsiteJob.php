@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Services\WebsiteCheckServices\WebsiteChecker;
 
 class CheckWebsiteJob implements ShouldQueue
 {
@@ -32,7 +33,9 @@ class CheckWebsiteJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $service = new CheckWebsiteService($this->website);
-        $service->handle();
+        $service = new WebsiteChecker();
+        $service->checkWebsite($this->website);
+        // $service = new CheckWebsiteService($this->website);
+        // $service->check();
     }
 }

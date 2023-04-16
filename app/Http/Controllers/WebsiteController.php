@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Website;
 use App\Models\Frequency;
-use App\Services\CheckWebsiteService;
 use App\Http\Requests\WebsiteStoreRequest;
 use App\Http\Requests\WebsiteUpdateRequest;
+use App\Services\WebsiteCheckServices\WebsiteCheckStatusUpdater;
 
 class WebsiteController extends Controller
 {
@@ -15,7 +15,7 @@ class WebsiteController extends Controller
      */
     public function index()
     {
-        $websites = Website::where('user_id', '=', auth()->user()->id)->get();
+        $websites = Website::where('user_id', '=', auth()->user()->id)->paginate(20);
         return view('personal.website.index', compact('websites'));
     }
 
@@ -76,13 +76,5 @@ class WebsiteController extends Controller
     {
         $website->delete();
         return redirect()->route('personal.website.index');
-    }
-
-    public function activate(Website $website)
-    {
-        $a = new CheckWebsiteService($website);
-        $a->chengeCheckStatus();
-
-        return redirect()->route('personal.website.show', compact('website'));
     }
 }
