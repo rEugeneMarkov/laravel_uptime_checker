@@ -64,8 +64,8 @@
                                                 <td class="sorting_1">{{ $website->title }}</td>
                                                 <td>http(s)://{{$website->website}}</td>
                                                 <td>{{$website->email}}</td>
-                                                <td>{{$website->frequency->title}}</td>
-                                                <td>{{$website->status}}</td>
+                                                <td>{{$website->interval}}</td>
+                                                <td>{{$website->status ? 'Enabled' : 'Disabled'}}</td>
                                                 <td class="text-center">
                                                     
                                                     <a class="btn btn-primary btn-sm" href="{{ route('personal.website.show', $website->id) }}" role="button">Show</a>

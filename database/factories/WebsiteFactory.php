@@ -23,6 +23,7 @@ class WebsiteFactory extends Factory
             'email' => fake()->email(),
             'website' => fake()->DomainName(),
             'user_id' => User::get()->random()->id,
+            'interval' => fake()->numberBetween(1, 5),
             'frequency_id' => 1,
             //'frequency_id' => Frequency::get()->random()->id,
         ];

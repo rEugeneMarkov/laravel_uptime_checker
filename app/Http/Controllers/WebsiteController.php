@@ -6,7 +6,6 @@ use App\Models\Website;
 use App\Models\Frequency;
 use App\Http\Requests\WebsiteStoreRequest;
 use App\Http\Requests\WebsiteUpdateRequest;
-use App\Services\WebsiteCheckServices\WebsiteCheckStatusUpdater;
 
 class WebsiteController extends Controller
 {

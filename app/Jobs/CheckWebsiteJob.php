@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Website;
 use Illuminate\Bus\Queueable;
-use App\Services\CheckWebsiteService;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,14 +17,13 @@ class CheckWebsiteJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    private Website $website;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(Website $website)
-    {
-        $this->website = $website;
+    public function __construct(
+        private Website $website,
+        private WebsiteChecker $checker,
+    ) {
     }
 
     /**
@@ -33,9 +31,6 @@ class CheckWebsiteJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $service = new WebsiteChecker();
-        $service->checkWebsite($this->website);
-        // $service = new CheckWebsiteService($this->website);
-        // $service->check();
+        $this->checker->checkWebsite($this->website);
     }
 }

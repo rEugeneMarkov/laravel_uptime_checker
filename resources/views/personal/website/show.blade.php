@@ -23,13 +23,13 @@
                     </tr>
                     <tr>
                         <th scope="row">Status</th>
-                        <td class="bg-{{$website->status ==='Disabled' ? 'danger' : 'success'}}">{{ $website->status }}</td>
+                        <td class="bg-{{!$website->status ? 'danger' : 'success'}}">{{ $website->status }}</td>
                     </tr>
                 </tbody>
             </table>
             <table>
                 <tr>
-                    @if ($website->status ==='Disabled')
+                    @if (!$website->status)
                     <td>
                         <a class="btn btn-warning" href="{{ route('personal.website.activate', $website->id) }}" role="button">Activate</a>
                     </td>

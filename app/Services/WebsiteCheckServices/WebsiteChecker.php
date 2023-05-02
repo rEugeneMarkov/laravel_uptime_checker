@@ -4,7 +4,6 @@ namespace App\Services\WebsiteCheckServices;
 
 use Exception;
 use App\Models\Website;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use App\Services\WebsiteCheckServices\WebsiteLogger;
 use App\Services\WebsiteCheckServices\WebsiteErrorNotifier;
