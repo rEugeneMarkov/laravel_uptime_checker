@@ -33,6 +33,13 @@
                             <div class="text-danger">Is required</div>
                         @enderror
 
+                        {{-- <label class="mb-3 mt-2">Check interval</label>
+                        <input type="text" class="form-control" name="interval" placeholder="E-mail for notification"
+                            value="{{ old('interval') }}">
+                        @error('interval')
+                            <div class="text-danger">Is required</div>
+                        @enderror --}}
+
                         <div class="form-group mt-2">
                             <label>Check frequency</label>
                             <select name="frequency_id"class="form-control">

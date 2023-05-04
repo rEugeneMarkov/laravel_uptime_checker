@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Contracts\Foundation\Application;
 use App\Services\WebsiteCheckServices\WebsiteChecker;
 
 class CheckWebsiteJob implements ShouldQueue
@@ -20,17 +21,15 @@ class CheckWebsiteJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(
-        private Website $website,
-        private WebsiteChecker $checker,
-    ) {
+    public function __construct(private Website $website)
+    {
     }
 
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(WebsiteChecker $checker): void
     {
-        $this->checker->checkWebsite($this->website);
+        $checker->checkWebsite($this->website);
     }
 }

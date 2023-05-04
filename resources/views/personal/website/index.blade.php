@@ -64,7 +64,7 @@
                                                 <td class="sorting_1">{{ $website->title }}</td>
                                                 <td>http(s)://{{$website->website}}</td>
                                                 <td>{{$website->email}}</td>
-                                                <td>{{$website->interval}}</td>
+                                                <td>Every {{$website->interval}} minute(s)</td>
                                                 <td>{{$website->status ? 'Enabled' : 'Disabled'}}</td>
                                                 <td class="text-center">
                                                     
