@@ -4,9 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Frequency;
 use App\Models\Website;
+use App\Models\Frequency;
 use Illuminate\Database\Seeder;
+use App\Services\WebsiteCheckServices\WebsiteChecker;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,5 +33,11 @@ class DatabaseSeeder extends Seeder
         }
 
         Website::factory(100)->create();
+
+        $websites = Website::all();
+        $checker = new WebsiteChecker();
+        foreach ($websites as $website) {
+            $checker->checkWebsite($website);
+        }
     }
 }

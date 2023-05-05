@@ -14,15 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $websites = Website::all();
-
-        foreach ($websites as $website) {
-            if ($website->status) {
-                $schedule->job(new CheckWebsiteJob($website))
-                     ->cron("*/{$website->interval} * * * *")
-                     ->name("check-website-{$website->id}-{$website->interval}");
-            }
-        }
+        $schedule->command('app:check-website')->everyMinute();
 
         // $schedule->command('inspire')->hourly();
     }

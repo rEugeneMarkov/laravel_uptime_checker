@@ -22,4 +22,9 @@ class Website extends Model
     {
         return $this->belongsTo(Frequency::class);
     }
+
+    public function checkData()
+    {
+        return $this->hasMany(CheckWebsiteData::class);
+    }
 }

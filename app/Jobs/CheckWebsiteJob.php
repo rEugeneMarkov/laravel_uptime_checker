@@ -3,12 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\Website;
+use App\Services\WebsiteCheckServices\JobService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Contracts\Foundation\Application;
 use App\Services\WebsiteCheckServices\WebsiteChecker;
 
 class CheckWebsiteJob implements ShouldQueue
