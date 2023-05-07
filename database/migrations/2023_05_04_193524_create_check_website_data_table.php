@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('check_website_data', function (Blueprint $table) {
             $table->id();
             $table->foreignId('website_id');
-            $table->unsignedBigInteger('status');
+            $table->unsignedBigInteger('response_status');
             $table->float('execution_time');
             $table->timestamp('checked_at');
+            $table->timestamps();
+
+            $table->index('website_id');
         });
     }
 

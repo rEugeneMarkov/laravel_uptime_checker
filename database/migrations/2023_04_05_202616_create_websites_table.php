@@ -17,10 +17,12 @@ return new class extends Migration
             $table->string('website');
             $table->string('email');
             $table->integer('interval')->default(60);
-            $table->boolean('status')->default(true);
-            $table->foreignId('frequency_id');
+            $table->integer('timeout')->default(60);
+            $table->boolean('monitoring_status')->default(true);
             $table->foreignId('user_id');
             $table->timestamps();
+
+            $table->index('user_id');
         });
     }
 

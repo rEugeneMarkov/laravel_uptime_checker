@@ -8,7 +8,7 @@ abstract class WebsiteCheckStatusUpdater
 {
     public static function updateStatus(Website $website): void
     {
-        $newStatus = $website->status ? false : true;
-        $website->update(['status' => $newStatus]);
+        $newStatus = $website->monitoring_status ? false : true;
+        $website->update(['monitoring_status' => $newStatus]);
     }
 }

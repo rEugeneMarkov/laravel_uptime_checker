@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helpers\ShowHelper;
 use App\Models\Website;
-use App\Models\Frequency;
 use App\Http\Requests\WebsiteStoreRequest;
 use App\Http\Requests\WebsiteUpdateRequest;
 
@@ -14,7 +14,9 @@ class WebsiteController extends Controller
      */
     public function index()
     {
-        $websites = Website::where('user_id', '=', auth()->user()->id)->paginate(20);
+        $websites = Website::where('user_id', '=', auth()->user()->id)
+            ->orderByDesc('id')
+            ->paginate(20);
         return view('personal.website.index', compact('websites'));
     }
 
@@ -23,8 +25,7 @@ class WebsiteController extends Controller
      */
     public function create()
     {
-        $frequencies = Frequency::all();
-        return view('personal.website.create', compact('frequencies'));
+        return view('personal.website.create');
     }
 
     /**
@@ -42,9 +43,10 @@ class WebsiteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Website $website)
+    public function show(Website $website, ShowHelper $helper)
     {
-        return view('personal.website.show', compact('website'));
+        $chartData = $helper->getData($website);
+        return view('personal.website.show', compact('website', 'chartData'));
     }
 
     /**
@@ -52,8 +54,7 @@ class WebsiteController extends Controller
      */
     public function edit(Website $website)
     {
-        $frequencies = Frequency::all();
-        return view('personal.website.edit', compact('website', 'frequencies'));
+        return view('personal.website.edit', compact('website'));
     }
 
     /**
@@ -62,10 +63,9 @@ class WebsiteController extends Controller
     public function update(WebsiteUpdateRequest $request, Website $website)
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->user()->id;
         $website->update($data);
 
-        return redirect()->route('personal.website.index');
+        return redirect()->route('personal.website.show', compact('website'));
     }
 
     /**

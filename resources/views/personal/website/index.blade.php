@@ -29,16 +29,19 @@
                                                 <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable"
                                                     rowspan="1" colspan="1" aria-sort="ascending"
                                                     aria-label="Name: activate to sort column descending"
-                                                    style="width: 149px;">Title</th>
+                                                    style="width: 149px;">Friendly Name</th>
                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                     colspan="1" aria-label="Position: activate to sort column ascending"
-                                                    style="width: 230px;">Website</th>
+                                                    style="width: 230px;">URL (or IP)</th>
                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                     colspan="1" aria-label="Office: activate to sort column ascending"
                                                     style="width: 105px;">E-mail for notification</th>
                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                     colspan="1" aria-label="Age: activate to sort column ascending"
-                                                    style="width: 45px;">Check frequency</th>
+                                                    style="width: 45px;">Monitoring Interval</th>
+                                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
+                                                    colspan="1" aria-label="Age: activate to sort column ascending"
+                                                    style="width: 45px;">Monitoring Timeout</th>
                                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1"
                                                     colspan="1"
                                                     aria-label="Start date: activate to sort column ascending"
@@ -50,10 +53,11 @@
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th rowspan="1" colspan="1">Title</th>
-                                                <th rowspan="1" colspan="1">Website</th>
+                                                <th rowspan="1" colspan="1">Friendly Name</th>
+                                                <th rowspan="1" colspan="1">URL (or IP)</th>
                                                 <th rowspan="1" colspan="1">E-mail for notification</th>
-                                                <th rowspan="1" colspan="1">Check frequency</th>
+                                                <th rowspan="1" colspan="1">Monitoring Interval</th>
+                                                <th rowspan="1" colspan="1">Monitoring Timeout</th>
                                                 <th rowspan="1" colspan="1">Status</th>
                                                 <th class="text-center" rowspan="1" colspan="3">Actions</th>
                                             </tr>
@@ -64,8 +68,9 @@
                                                 <td class="sorting_1">{{ $website->title }}</td>
                                                 <td>http(s)://{{$website->website}}</td>
                                                 <td>{{$website->email}}</td>
-                                                <td>Every {{$website->interval}} minute(s)</td>
-                                                <td>{{$website->status ? 'Enabled' : 'Disabled'}}</td>
+                                                <td>Every <b>{{$website->interval}}</b> minute(s)</td>
+                                                <td><b>{{$website->timeout}}</b> second(s)</td>
+                                                <td>{{$website->monitoring_status ? 'Enabled' : 'Disabled'}}</td>
                                                 <td class="text-center">
                                                     
                                                     <a class="btn btn-primary btn-sm" href="{{ route('personal.website.show', $website->id) }}" role="button">Show</a>

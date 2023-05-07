@@ -24,8 +24,7 @@ class WebsiteFactory extends Factory
             'website' => fake()->DomainName(),
             'user_id' => User::get()->random()->id,
             'interval' => fake()->numberBetween(1, 5),
-            'frequency_id' => 1,
-            //'frequency_id' => Frequency::get()->random()->id,
+            'timeout' => fake()->numberBetween(5, 60),
         ];
     }
 }

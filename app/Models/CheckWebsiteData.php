@@ -11,5 +11,9 @@ class CheckWebsiteData extends Model
 
     protected $table = 'check_website_data';
     protected $guarded = false;
-    public $timestamps = false;
+
+    public function website()
+    {
+        return $this->belongsTo(Website::class);
+    }
 }
