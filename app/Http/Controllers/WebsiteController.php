@@ -45,8 +45,10 @@ class WebsiteController extends Controller
      */
     public function show(Website $website, ShowHelper $helper)
     {
-        $chartData = $helper->getData($website);
-        return view('personal.website.show', compact('website', 'chartData'));
+        $data = $helper->getData($website);
+        $avg_execution_time = $data['avg_execution_time'];
+        $chartData = $data['chartData'];
+        return view('personal.website.show', compact('website', 'chartData', 'avg_execution_time'));
     }
 
     /**

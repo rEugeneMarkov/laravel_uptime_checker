@@ -14,6 +14,7 @@ class UrlChecker
             $response = Http::get($url);
             $end_time = microtime(true);
             $execution_time = $end_time - $start_time;
+            $execution_time *= 1000;
 
             $data = ['response_status' => $response->status(),
                     'execution_time' => $execution_time,

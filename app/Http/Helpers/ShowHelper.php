@@ -20,10 +20,15 @@ class ShowHelper
             ->orderBy('hour', 'asc')
             ->get();
 
+            $avg_execution_time = $data->avg('avg_execution_time');
+
+
         $chartData = [];
         foreach ($data as $item) {
             $chartData[] = [$item->hour, $item->avg_execution_time];
         }
-        return $chartData;
+        return ['chartData' => $chartData,
+            'avg_execution_time' => $avg_execution_time,
+            ];
     }
 }
