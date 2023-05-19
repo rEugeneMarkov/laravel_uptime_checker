@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Helpers\ShowHelper;
 use App\Models\Website;
 use App\Http\Requests\WebsiteStoreRequest;
 use App\Http\Requests\WebsiteUpdateRequest;
+use App\Helpers\WebsiteControllerShowHelper;
 
 class WebsiteController extends Controller
 {
@@ -43,12 +43,13 @@ class WebsiteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Website $website, ShowHelper $helper)
+    public function show(Website $website, WebsiteControllerShowHelper $helper)
     {
-        $data = $helper->getData($website);
-        $avg_execution_time = $data['avg_execution_time'];
-        $chartData = $data['chartData'];
-        return view('personal.website.show', compact('website', 'chartData', 'avg_execution_time'));
+        $data = $helper->getShowData($website);
+        $avgExecTime = $data['avg_execution_time'];
+        $dashChartData = $data['dashChartData'];
+        $uptimeChartData = $data['uptimeChartData'];
+        return view('personal.website.show', compact('website', 'dashChartData', 'avgExecTime', 'uptimeChartData'));
     }
 
     /**

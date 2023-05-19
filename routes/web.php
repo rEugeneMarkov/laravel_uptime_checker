@@ -3,6 +3,7 @@
 use App\Models\Website;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Services\WebsiteCheckServices\WebsiteChecker;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +49,11 @@ Route::middleware('auth')
                     App\Services\WebsiteCheckServices\WebsiteCheckStatusUpdater::updateStatus($website);
                     return redirect()->route('personal.website.show', compact('website'));
                 })->name('website.activate');
+
+                Route::get('/manualcheck/{website}', function (WebsiteChecker $checker, Website $website) {
+                    //App\Jobs\CheckWebsiteJob::dispatch($website);
+                    $checker->checkWebsite($website);
+                    return redirect()->back();
+                })->name('manualcheck');
             });
     });

@@ -5,18 +5,17 @@ namespace App\Services\WebsiteCheckServices;
 use App\Models\Website;
 use App\Jobs\CheckWebsiteJob;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\CheckWebsiteDataRepository;
 
 class CommandService
 {
+    public function __construct(
+        private CheckWebsiteDataRepository $checkWebsiteDataRepository
+    ) {
+    }
     public function handle(): void
     {
-        $websites = Website::where('monitoring_status', true)
-            ->whereDoesntHave('checkData')
-            ->orWhereHas('checkData', function ($query) {
-                $query->select(DB::raw('MAX(checked_at) as last_checked_at'))
-                    ->havingRaw('last_checked_at <= NOW() - INTERVAL websites.interval MINUTE');
-            })
-            ->get();
+        $websites =  $this->checkWebsiteDataRepository->getWebsitesForCheck();
 
         foreach ($websites as $website) {
             CheckWebsiteJob::dispatch($website);

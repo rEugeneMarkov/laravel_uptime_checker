@@ -1,7 +1,21 @@
 @extends('layouts.personal')
+<style>
+    .uptimeChart ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        margin-top: 12px;
+    }
 
+    .uptimeChart li {
+        opacity: .8;
+        display: inline-block;
+        height: 20px;
+        float: right;
+    }
+</style>
 @section('content')
-    <div class="container-fluid d-flex justify-content-start">
+    <div class="container-fluid d-flex justify-content-center">
         <div class="col-6">
             <table class="table table-bordered border-{{ !$website->monitoring_status ? 'danger' : 'success' }}">
                 <tbody>
@@ -37,16 +51,10 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-start">
-                <a class="btn btn-success ml-3 disabled" href="{{ route('personal.website.activate', $website->id) }}"
+                <a class="btn btn-success ml-3" href="{{ route('personal.manualcheck', $website->id) }}"
                     role="button">Check</a>
-                @if (!$website->monitoring_status)
-                    <a class="btn btn-warning ml-3" href="{{ route('personal.website.activate', $website->id) }}"
-                        role="button">Activate</a>
-                @else
-                    <a class="btn btn-warning ml-3" href="{{ route('personal.website.activate', $website->id) }}"
-                        role="button">Deactivate</a>
-                @endif
-
+                <a class="btn btn-warning ml-3" href="{{ route('personal.website.activate', $website->id) }}"
+                    role="button">{{ !$website->monitoring_status ? 'Activate' : 'Deactivate' }}</a>
                 <a class="btn btn-success ml-3" href="{{ route('personal.website.edit', $website->id) }}"
                     role="button">Edit</a>
                 <form action="{{ route('personal.website.destroy', $website->id) }}" method="POST">
@@ -56,17 +64,31 @@
                 </form>
             </div>
         </div>
-        @if ($avg_execution_time > 0)
-            <div class="col-6 bg-dark" style="border-radius: 5px">
+        @if ($avgExecTime > 0)
+            <div class="col-6 bg-dark text-white" style="border-radius: 5px">
                 <div>
-                    <div class="mt-4 text-white">
-                        <b style="font-size: 24px">Response Time</b> 
-                        <span style="color: lightgreen">last 24 hours ({{ number_format($avg_execution_time, 2) }}ms av.)</span>
+                    <b style="font-size: 36px">Uptime</b>
+                    <span style="color: lightgreen">last 24 hours</span>
+                </div>
+                <div style="margin-right: 40px">
+                    <ul class="uptimeChart">
+                        @foreach ($uptimeChartData as $data)
+                            <li data-tooltip="tooltip"
+                                title="Start Time: {{ $data['start_time']->format('Y-m-d H:i:s') }} &#013;End Time: {{ $data['end_time']->format('Y-m-d H:i:s') }}&#013;Duration: {{ floor($data['duration'] / 60) }} hrs, {{ $data['duration'] % 60 }} mins&#013;Status: {{ $data['status'] }}"
+                                style="width: {{ $data['duration'] / 1440 * 100 }}%; background: {{ $data['status'] == 'Down' ? '#ba3737' : '#4da74d' }};">
+                                <img src="/img/1px.gif" alt="1px">
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div>
+                    <div class="mt-4">
+                        <b style="font-size: 36px">Response Time</b>
+                        <span style="color: lightgreen; font-size: 24px">last 24 hours ({{ number_format($avgExecTime, 2) }}ms
+                            av.)</span>
                         <p style="font-size: 12px" class="mt-2">Shows the "instant" that the monitor started returning a
-                            response in ms
-                            (and
-                            average for the displayed
-                            period is {{ number_format($avg_execution_time, 2) }}ms).</p>
+                            response in ms (and average for the displayed period is {{ number_format($avgExecTime, 2) }}ms).
+                        </p>
                     </div>
                     <div class="mt-3 mb-3">
                         <canvas id="myChart" class="w-100 h-50"></canvas>
@@ -74,55 +96,18 @@
                 </div>
             </div>
         @endif
-
     </div>
-    {{-- <div>
-        <div>
-            <table>
-                <tr>
-                    <td>
-                        <a class="btn btn-success disabled"
-                            href="{{ route('personal.website.activate', $website->id) }}" role="button">Check</a>
-                    </td>
-                    @if (!$website->monitoring_status)
-                        <td>
-                            <a class="btn btn-warning" href="{{ route('personal.website.activate', $website->id) }}"
-                                role="button">Activate</a>
-                        </td>
-                    @else
-                        <td>
-                            <a class="btn btn-warning" href="{{ route('personal.website.activate', $website->id) }}"
-                                role="button">Deactivate</a>
-                        </td>
-                    @endif
-
-                    <td>
-                        <a class="btn btn-success" href="{{ route('personal.website.edit', $website->id) }}"
-                            role="button">Edit</a>
-                    </td>
-                    <td>
-                        <form action="{{ route('personal.website.destroy', $website->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <br>
-    </div> --}}
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
         Chart.defaults.color = "white";
-        var chartData = <?php echo json_encode($chartData); ?>;
+        var chartData = <?php echo json_encode($dashChartData); ?>;
         var chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: chartData.map(item => item[0] + ':00'),
+                labels: chartData.map(item => item['hour'] + ':00'),
                 datasets: [{
                     label: 'Response Time',
-                    data: chartData.map(item => item[1]),
+                    data: chartData.map(item => item['avg_execution_time']),
                     borderColor: 'rgb(0, 201, 87)',
                     backgroundColor: 'rgba(0, 201, 87, 0.2)',
                     fontColor: 'rgb(0, 201, 87)',
