@@ -6,3 +6,20 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+.uptimeChartView > ul,
+.uptimeChartView > ul > li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.uptimeChartView > li {
+    opacity: .8;
+    display: inline-block;
+    height: 20px;
+    float: right;
+}
+.uptimeChartView > div {
+    margin-right: 40px;
+}

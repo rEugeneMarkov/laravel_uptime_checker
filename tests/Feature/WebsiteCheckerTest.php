@@ -1,15 +1,16 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
-use App\Models\Website;
 use App\Models\CheckError;
 use App\Models\CheckWebsiteData;
-use App\Services\WebsiteCheckServices\WebsiteChecker;
+use App\Models\Website;
 use App\Services\WebsiteCheckServices\UrlChecker;
+use App\Services\WebsiteCheckServices\WebsiteChecker;
 use App\Services\WebsiteCheckServices\WebsiteLogger;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use Tests\TestCase;
 
 class WebsiteCheckerTest extends TestCase
 {
@@ -28,6 +29,7 @@ class WebsiteCheckerTest extends TestCase
     public function test_check_website_with_error_message(): void
     {
         $this->withoutExeptionHeadlink;
+
         $website = new Website();
         $website->website = 'https://example.com';
 

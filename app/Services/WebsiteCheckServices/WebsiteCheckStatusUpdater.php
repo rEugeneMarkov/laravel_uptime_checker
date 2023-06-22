@@ -11,4 +11,11 @@ abstract class WebsiteCheckStatusUpdater
         $newStatus = $website->monitoring_status ? false : true;
         $website->update(['monitoring_status' => $newStatus]);
     }
+
+    public static function updateStatusToFalse(Website $website): void
+    {
+        if ($website->monitoring_status) {
+            $website->update(['monitoring_status' => false]);
+        }
+    }
 }

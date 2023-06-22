@@ -1,19 +1,5 @@
 @extends('layouts.personal')
-<style>
-    .uptimeChart ul {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        margin-top: 12px;
-    }
 
-    .uptimeChart li {
-        opacity: .8;
-        display: inline-block;
-        height: 20px;
-        float: right;
-    }
-</style>
 @section('content')
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-6">
@@ -70,8 +56,8 @@
                     <b style="font-size: 36px">Uptime</b>
                     <span style="color: lightgreen">last 24 hours</span>
                 </div>
-                <div style="margin-right: 40px">
-                    <ul class="uptimeChart">
+                <div class="uptimeChartView">
+                    <ul class="uptimeChartView">
                         @foreach ($uptimeChartData as $data)
                             <li data-tooltip="tooltip"
                                 title="Start Time: {{ $data['start_time']->format('Y-m-d H:i:s') }} &#013;End Time: {{ $data['end_time']->format('Y-m-d H:i:s') }}&#013;Duration: {{ floor($data['duration'] / 60) }} hrs, {{ $data['duration'] % 60 }} mins&#013;Status: {{ $data['status'] }}"

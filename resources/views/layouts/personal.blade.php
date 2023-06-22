@@ -21,7 +21,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+
+     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 </head>
 
@@ -78,7 +79,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"  data-target="#logoutModal">

@@ -24,7 +24,7 @@ class SendNotifications extends Command
     /**
      * Execute the console command.
      */
-    public function handle(SendNotification $notification)
+    public function handle(SendNotification $notification): void
     {
         $notification->sendErrorNotifications();
         $notification->sendStatusNotifications();

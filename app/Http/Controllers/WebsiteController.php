@@ -6,13 +6,15 @@ use App\Models\Website;
 use App\Http\Requests\WebsiteStoreRequest;
 use App\Http\Requests\WebsiteUpdateRequest;
 use App\Helpers\WebsiteControllerShowHelper;
+use Illuminate\Contracts\View\View;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class WebsiteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $websites = Website::where('user_id', '=', auth()->user()->id)
             ->orderByDesc('id')
@@ -23,7 +25,7 @@ class WebsiteController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('personal.website.create');
     }
@@ -31,7 +33,7 @@ class WebsiteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(WebsiteStoreRequest $request)
+    public function store(WebsiteStoreRequest $request): RedirectResponse
     {
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
@@ -43,19 +45,21 @@ class WebsiteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Website $website, WebsiteControllerShowHelper $helper)
+    public function show(Website $website, WebsiteControllerShowHelper $helper): View
     {
         $data = $helper->getShowData($website);
-        $avgExecTime = $data['avg_execution_time'];
-        $dashChartData = $data['dashChartData'];
-        $uptimeChartData = $data['uptimeChartData'];
-        return view('personal.website.show', compact('website', 'dashChartData', 'avgExecTime', 'uptimeChartData'));
+//        $data['website'] = $website;
+//        $avgExecTime = $data['avgExecTime'];
+//        $dashChartData = $data['dashChartData'];
+//        $uptimeChartData = $data['uptimeChartData'];
+//        return view('personal.website.show', compact('website', 'dashChartData', 'avgExecTime', 'uptimeChartData'));
+        return view('personal.website.show')->with($data);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Website $website)
+    public function edit(Website $website): View
     {
         return view('personal.website.edit', compact('website'));
     }
@@ -63,7 +67,7 @@ class WebsiteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(WebsiteUpdateRequest $request, Website $website)
+    public function update(WebsiteUpdateRequest $request, Website $website): RedirectResponse
     {
         $data = $request->validated();
         $website->update($data);
@@ -74,7 +78,7 @@ class WebsiteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Website $website)
+    public function destroy(Website $website): RedirectResponse
     {
         $website->delete();
         return redirect()->route('personal.website.index');

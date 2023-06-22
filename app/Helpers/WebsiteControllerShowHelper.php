@@ -25,7 +25,8 @@ class WebsiteControllerShowHelper
         return [
             'dashChartData' => $dashChartData,
             'uptimeChartData' => $uptimeChartData,
-            'avg_execution_time' => collect($dashChartData)->avg('avg_execution_time'),
+            'avgExecTime' => collect($dashChartData)->avg('avg_execution_time'),
+            'website' => $website,
         ];
     }
 }

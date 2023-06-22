@@ -10,8 +10,8 @@ use App\Services\WebsiteCheckServices\WebsiteLogger;
 class WebsiteChecker
 {
     public function __construct(
-        private UrlChecker $checker,
-        private WebsiteLogger $logger,
+        private readonly UrlChecker $checker,
+        private readonly WebsiteLogger $logger,
     ) {
     }
     public function checkWebsite(Website $website): void
@@ -28,7 +28,7 @@ class WebsiteChecker
     {
         if (array_key_exists('error_message', $data)) {
             CheckError::create($data);
-            WebsiteCheckStatusUpdater::updateStatus($website);
+            WebsiteCheckStatusUpdater::updateStatusToFalse($website);
         } else {
             CheckWebsiteData::create($data);
         }

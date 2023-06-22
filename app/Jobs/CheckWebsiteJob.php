@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Models\Website;
-use App\Services\WebsiteCheckServices\JobService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -21,7 +20,7 @@ class CheckWebsiteJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private Website $website)
+    public function __construct(private readonly Website $website)
     {
     }
 
