@@ -18,8 +18,8 @@ class CheckWebsiteDataFactory extends Factory
     public function definition(): array
     {
         return [
-            'website_id' => Website::get()->random()->id,
-            'response_status' => fake()->randomElement([200, 404]),
+            'website_id' => fake()->numberBetween(1, 100),
+            'response_status' => fake()->randomElement([200, 404, 500]),
             'execution_time' => fake()->numberBetween(1000, 5000),
             'checked_at' => fake()->dateTimeBetween('-2 day'),
         ];

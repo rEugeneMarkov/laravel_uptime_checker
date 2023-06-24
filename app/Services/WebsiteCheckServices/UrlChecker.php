@@ -16,10 +16,11 @@ class UrlChecker
             $execution_time = $end_time - $start_time;
             $execution_time *= 1000;
 
-            $data = ['response_status' => $response->status(),
-                    'execution_time' => $execution_time,
-                ];
-            $data['checked_at'] = now()->format('Y-m-d H:i');
+            $data = [
+                'response_status' => $response->status(),
+                'execution_time' => $execution_time,
+                'checked_at' => now()->format('Y-m-d H:i'),
+            ];
         } catch (Exception $exception) {
             $data['error_message'] = $exception->getMessage();
         }
