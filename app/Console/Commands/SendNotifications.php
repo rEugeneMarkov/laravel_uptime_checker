@@ -3,16 +3,16 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Http\Controllers\WebsiteCheckController;
+use App\Services\NotificationServices\SendNotification;
 
-class CheckWebsiteStatus extends Command
+class SendNotifications extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'check-site {frequency}';
+    protected $signature = 'app:send-notifications';
 
     /**
      * The console command description.
@@ -24,10 +24,9 @@ class CheckWebsiteStatus extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(SendNotification $notification): void
     {
-        $frequency = $this->argument('frequency');
-        $check = new WebsiteCheckController();
-        $check->checkWebsite($frequency);
+        $notification->sendErrorNotifications();
+        $notification->sendStatusNotifications();
     }
 }

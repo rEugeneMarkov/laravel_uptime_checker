@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('frequencies', function (Blueprint $table) {
+        Schema::create('check_website_data', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->foreignId('website_id');
+            $table->unsignedBigInteger('response_status');
+            $table->float('execution_time');
+            $table->timestamp('checked_at');
             $table->timestamps();
+
+            $table->index('website_id');
         });
     }
 
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('frequencies');
+        Schema::dropIfExists('check_website_data');
     }
 };

@@ -18,8 +18,11 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+
+     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 </head>
 
@@ -76,7 +79,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"  data-target="#logoutModal">
@@ -153,11 +156,11 @@
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
     <!-- Page level plugins -->
-    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+    {{-- <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script> --}}
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+    {{-- <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script> --}}
 
 </body>
 

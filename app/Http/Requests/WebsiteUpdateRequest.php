@@ -25,7 +25,8 @@ class WebsiteUpdateRequest extends FormRequest
             'title' => 'required|string',
             'website' => 'required|string',
             'email' => 'required|email',
-            'frequency_id' => 'required|integer|exists:frequencies,id',
+            'interval' => 'required|integer|min:1|max:60',
+            'timeout' => 'required|integer|min:1|max:60',
         ];
     }
 }

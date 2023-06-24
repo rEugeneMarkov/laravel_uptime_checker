@@ -3,35 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\Website;
-use App\Models\Frequency;
 use App\Http\Requests\WebsiteStoreRequest;
 use App\Http\Requests\WebsiteUpdateRequest;
-use App\Services\WebsiteCheckServices\WebsiteCheckStatusUpdater;
+use App\Helpers\WebsiteControllerShowHelper;
+use Illuminate\Contracts\View\View;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class WebsiteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        $websites = Website::where('user_id', '=', auth()->user()->id)->paginate(20);
+        $websites = Website::where('user_id', '=', auth()->user()->id)
+            ->orderByDesc('id')
+            ->paginate(20);
         return view('personal.website.index', compact('websites'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        $frequencies = Frequency::all();
-        return view('personal.website.create', compact('frequencies'));
+        return view('personal.website.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(WebsiteStoreRequest $request)
+    public function store(WebsiteStoreRequest $request): RedirectResponse
     {
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
@@ -43,36 +45,40 @@ class WebsiteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Website $website)
+    public function show(Website $website, WebsiteControllerShowHelper $helper): View
     {
-        return view('personal.website.show', compact('website'));
+        $data = $helper->getShowData($website);
+//        $data['website'] = $website;
+//        $avgExecTime = $data['avgExecTime'];
+//        $dashChartData = $data['dashChartData'];
+//        $uptimeChartData = $data['uptimeChartData'];
+//        return view('personal.website.show', compact('website', 'dashChartData', 'avgExecTime', 'uptimeChartData'));
+        return view('personal.website.show')->with($data);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Website $website)
+    public function edit(Website $website): View
     {
-        $frequencies = Frequency::all();
-        return view('personal.website.edit', compact('website', 'frequencies'));
+        return view('personal.website.edit', compact('website'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(WebsiteUpdateRequest $request, Website $website)
+    public function update(WebsiteUpdateRequest $request, Website $website): RedirectResponse
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->user()->id;
         $website->update($data);
 
-        return redirect()->route('personal.website.index');
+        return redirect()->route('personal.website.show', compact('website'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Website $website)
+    public function destroy(Website $website): RedirectResponse
     {
         $website->delete();
         return redirect()->route('personal.website.index');

@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Models\Website;
+use App\Jobs\CheckWebsiteJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,16 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('check-site 1')->everyMinute();
-        $schedule->command('check-site 2')->everyFiveMinutes();
-        $schedule->command('check-site 3')->everyTenMinutes();
-        $schedule->command('check-site 4')->everyThirtyMinutes();
-        $schedule->command('check-site 5')->hourly();
-        $schedule->command('check-site 6')->daily();
-        $schedule->command('check-site 7')->weekly();
-        $schedule->command('check-site 8')->monthly();
-        $schedule->command('check-site 9')->quarterly();
-        $schedule->command('check-site 10')->yearly();
+        $schedule->command('app:send-notifications')->everyMinute();
+        $schedule->command('app:check-website')->everyMinute();
 
         // $schedule->command('inspire')->hourly();
     }

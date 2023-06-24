@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Frequency extends Model
+class CheckError extends Model
 {
     use HasFactory;
 
-    protected $table = 'frequencies';
+    protected $table = 'check_errors';
     protected $guarded = false;
+
+    public function website()
+    {
+        return $this->belongsTo(Website::class);
+    }
 }

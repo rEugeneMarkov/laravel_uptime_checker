@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Frequency;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,9 +21,9 @@ class WebsiteFactory extends Factory
             'title' => fake()->word(),
             'email' => fake()->email(),
             'website' => fake()->DomainName(),
-            'user_id' => User::get()->random()->id,
-            'frequency_id' => 1,
-            //'frequency_id' => Frequency::get()->random()->id,
+            'user_id' => fake()->numberBetween(1, 5),
+            'interval' => fake()->numberBetween(1, 5),
+            'timeout' => fake()->numberBetween(5, 60),
         ];
     }
 }

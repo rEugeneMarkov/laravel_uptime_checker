@@ -18,8 +18,13 @@ class Website extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function frequency()
+    public function checkErrors()
     {
-        return $this->belongsTo(Frequency::class);
+        return $this->hasMany(CheckError::class);
+    }
+
+    public function checkData()
+    {
+        return $this->hasMany(CheckWebsiteData::class);
     }
 }

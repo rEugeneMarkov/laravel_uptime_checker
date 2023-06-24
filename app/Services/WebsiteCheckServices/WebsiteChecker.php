@@ -2,36 +2,35 @@
 
 namespace App\Services\WebsiteCheckServices;
 
-use Exception;
 use App\Models\Website;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Http;
+use App\Models\CheckError;
+use App\Models\CheckWebsiteData;
 use App\Services\WebsiteCheckServices\WebsiteLogger;
-use App\Services\WebsiteCheckServices\WebsiteErrorNotifier;
-use App\Services\WebsiteCheckServices\WebsiteStatusNotifier;
-use App\Services\WebsiteCheckServices\WebsiteCheckStatusUpdater;
 
 class WebsiteChecker
 {
-    public function checkWebsite(Website $website)
+    public function __construct(
+        private readonly UrlChecker $checker,
+        private readonly WebsiteLogger $logger,
+    ) {
+    }
+    public function checkWebsite(Website $website): void
     {
-        $url = $website->website;
-        $email = $website->email;
 
-        try {
-            $response = Http::get($url);
-            if ($response->status() !== 200) {
-                (new WebsiteStatusNotifier())->sendNotification($email, $url, $response->status());
-                (new WebsiteLogger())->logWarning($url, $response->status());
-                WebsiteCheckStatusUpdater::updateStatus($website);
-            } else {
-                (new WebsiteLogger())->logInfo($url);
-            }
-        } catch (Exception $exception) {
-            $eMessage = $exception->getMessage();
-            (new WebsiteErrorNotifier())->sendNotification($email, $url, $eMessage);
-            (new WebsiteLogger())->logError($url, $eMessage);
-            WebsiteCheckStatusUpdater::updateStatus($website);
+        $data = $this->checker->check($website->website);
+        $data['website_id'] = $website->id;
+
+        $this->safeCheckData($website, $data);
+        $this->logger->safeLog($website, $data);
+    }
+
+    public function safeCheckData(Website $website, array $data): void
+    {
+        if (array_key_exists('error_message', $data)) {
+            CheckError::create($data);
+            WebsiteCheckStatusUpdater::updateStatusToFalse($website);
+        } else {
+            CheckWebsiteData::create($data);
         }
     }
 }
