@@ -2,13 +2,11 @@
 
 namespace App\Mail;
 
-use App\Models\Website;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\SerializesModels;
 
 class WebsiteErrorNotification extends Mailable
 {
@@ -16,6 +14,7 @@ class WebsiteErrorNotification extends Mailable
     use SerializesModels;
 
     public string $url;
+
     public string $error;
 
     /**

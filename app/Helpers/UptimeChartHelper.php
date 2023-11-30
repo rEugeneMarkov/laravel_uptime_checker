@@ -2,10 +2,10 @@
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
-use App\Models\CheckWebsiteData;
-use Illuminate\Support\Collection;
 use App\Interfaces\UptimeChartDataManipulatorInterface;
+use App\Models\CheckWebsiteData;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class UptimeChartHelper implements UptimeChartDataManipulatorInterface
 {
@@ -13,6 +13,7 @@ class UptimeChartHelper implements UptimeChartDataManipulatorInterface
     {
         $chartData = $this->generateChartData($checks);
         $mergedData = $this->mergeChartData($chartData);
+
         return array_reverse($mergedData);
     }
 
@@ -39,6 +40,7 @@ class UptimeChartHelper implements UptimeChartDataManipulatorInterface
     private function getStatus(CheckWebsiteData $check): string
     {
         $timeout = $check->website->timeout * 1000;
+
         return ($check->response_status === 200 && $check->execution_time <= $timeout) ? 'Up' : 'Down';
     }
 

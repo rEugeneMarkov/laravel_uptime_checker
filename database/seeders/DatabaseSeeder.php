@@ -4,11 +4,11 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\CheckError;
+use App\Models\CheckWebsiteData;
 use App\Models\User;
 use App\Models\Website;
-use App\Models\CheckError;
 use Illuminate\Database\Seeder;
-use App\Models\CheckWebsiteData;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
         ]);
-        User::factory(4)->create();
+        //User::factory(4)->create();
 
-        Website::factory(100)->create();
+        Website::factory(10)->create();
         CheckWebsiteData::factory(1000)->create();
-        CheckError::factory(30)->create();
+        //CheckError::factory(30)->create();
     }
 }

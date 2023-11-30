@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Interfaces\DashChartDataManipulatorInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use App\Interfaces\DashChartDataManipulatorInterface;
 
 class DashChartHelper implements DashChartDataManipulatorInterface
 {

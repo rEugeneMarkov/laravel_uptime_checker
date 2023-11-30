@@ -11,6 +11,7 @@ class CheckWebsiteData extends Model
     use HasFactory;
 
     protected $table = 'check_website_data';
+
     protected $guarded = false;
 
     public function website(): BelongsTo

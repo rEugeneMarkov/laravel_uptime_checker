@@ -2,10 +2,10 @@
 
 namespace App\Helpers;
 
-use App\Models\Website;
-use App\Repositories\CheckWebsiteDataRepository;
 use App\Interfaces\DashChartDataManipulatorInterface;
 use App\Interfaces\UptimeChartDataManipulatorInterface;
+use App\Models\Website;
+use App\Repositories\CheckWebsiteDataRepository;
 
 class WebsiteControllerShowHelper
 {

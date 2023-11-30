@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Services\NotificationServices\SendNotification;
+use Illuminate\Console\Command;
 
 class SendNotifications extends Command
 {

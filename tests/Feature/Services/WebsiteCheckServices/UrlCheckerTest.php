@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Services\WebsiteCheckServices;
 
-use Exception;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Date;
 use App\Services\WebsiteCheckServices\UrlChecker;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 class UrlCheckerTest extends TestCase
 {
@@ -24,7 +24,6 @@ class UrlCheckerTest extends TestCase
         $this->assertArrayHasKey('execution_time', $result);
         $this->assertArrayHasKey('checked_at', $result);
         $this->assertArrayNotHasKey('error_message', $result);
-
 
         $this->assertEquals(200, $result['response_status']);
 

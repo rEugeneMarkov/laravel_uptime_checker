@@ -2,10 +2,9 @@
 
 namespace App\Services\WebsiteCheckServices;
 
-use App\Models\Website;
 use App\Models\CheckError;
 use App\Models\CheckWebsiteData;
-use App\Services\WebsiteCheckServices\WebsiteLogger;
+use App\Models\Website;
 
 class WebsiteChecker
 {
@@ -14,6 +13,7 @@ class WebsiteChecker
         private readonly WebsiteLogger $logger,
     ) {
     }
+
     public function checkWebsite(Website $website): void
     {
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Website;
+use App\Helpers\WebsiteControllerShowHelper;
 use App\Http\Requests\WebsiteStoreRequest;
 use App\Http\Requests\WebsiteUpdateRequest;
-use App\Helpers\WebsiteControllerShowHelper;
+use App\Models\Website;
 use Illuminate\Contracts\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -19,6 +19,7 @@ class WebsiteController extends Controller
         $websites = Website::where('user_id', '=', auth()->user()->id)
             ->orderByDesc('id')
             ->paginate(20);
+
         return view('personal.website.index', compact('websites'));
     }
 
@@ -48,11 +49,12 @@ class WebsiteController extends Controller
     public function show(Website $website, WebsiteControllerShowHelper $helper): View
     {
         $data = $helper->getShowData($website);
-//        $data['website'] = $website;
-//        $avgExecTime = $data['avgExecTime'];
-//        $dashChartData = $data['dashChartData'];
-//        $uptimeChartData = $data['uptimeChartData'];
-//        return view('personal.website.show', compact('website', 'dashChartData', 'avgExecTime', 'uptimeChartData'));
+
+        //        $data['website'] = $website;
+        //        $avgExecTime = $data['avgExecTime'];
+        //        $dashChartData = $data['dashChartData'];
+        //        $uptimeChartData = $data['uptimeChartData'];
+        //        return view('personal.website.show', compact('website', 'dashChartData', 'avgExecTime', 'uptimeChartData'));
         return view('personal.website.show')->with($data);
     }
 
@@ -81,6 +83,7 @@ class WebsiteController extends Controller
     public function destroy(Website $website): RedirectResponse
     {
         $website->delete();
+
         return redirect()->route('personal.website.index');
     }
 }

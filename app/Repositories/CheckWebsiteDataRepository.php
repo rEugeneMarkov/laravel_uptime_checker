@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use Carbon\Carbon;
-use App\Models\Website;
 use App\Models\CheckWebsiteData;
+use App\Models\Website;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +19,7 @@ class CheckWebsiteDataRepository
 
         return $checks;
     }
+
     public function getWebsitesForCheck(): Collection
     {
         $websites = Website::where('monitoring_status', true)
@@ -28,6 +29,7 @@ class CheckWebsiteDataRepository
                     ->havingRaw('last_checked_at <= NOW() - INTERVAL websites.interval MINUTE');
             })
             ->get();
+
         return $websites;
     }
 }

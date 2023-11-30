@@ -10,6 +10,7 @@ class CheckError extends Model
     use HasFactory;
 
     protected $table = 'check_errors';
+
     protected $guarded = false;
 
     public function website()

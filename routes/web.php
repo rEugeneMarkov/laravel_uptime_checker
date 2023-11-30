@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\Website;
+use App\Services\WebsiteCheckServices\WebsiteChecker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Services\WebsiteCheckServices\WebsiteChecker;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ Route::middleware('auth')
         Route::get('/profile', [App\Http\Controllers\PersonalController::class, 'profile'])->name('profile');
         Route::resource('website', App\Http\Controllers\WebsiteController::class)
             ->only([
-                'index', 'store', 'create'
+                'index', 'store', 'create',
             ]);
         Route::middleware('website.belongs.to.user')
             ->group(function () {
@@ -47,13 +47,16 @@ Route::middleware('auth')
 
                 Route::get('/website/{website}/changeStatus', function (Website $website) {
                     App\Services\WebsiteCheckServices\WebsiteCheckStatusUpdater::updateStatus($website);
-                    return redirect()->route('personal.website.show', compact('website'));
+
+                    return redirect()->route('personal.website.show', compact('website'))
+                        ->with('changeStatus', 'Status is changed!');
                 })->name('website.activate');
 
                 Route::get('/manualcheck/{website}', function (WebsiteChecker $checker, Website $website) {
                     //App\Jobs\CheckWebsiteJob::dispatch($website);
                     $checker->checkWebsite($website);
-                    return redirect()->back();
+
+                    return redirect()->back()->with('check_success', 'Website is checked!');
                 })->name('manualcheck');
             });
     });

@@ -21,7 +21,8 @@ class WebsiteFactory extends Factory
             'title' => fake()->word(),
             'email' => fake()->email(),
             'website' => fake()->DomainName(),
-            'user_id' => fake()->numberBetween(1, 5),
+            'user_id' => 1,
+            //'user_id' => fake()->numberBetween(1, 5),
             'interval' => fake()->numberBetween(1, 5),
             'timeout' => fake()->numberBetween(5, 60),
         ];

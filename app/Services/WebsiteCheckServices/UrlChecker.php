@@ -24,6 +24,7 @@ class UrlChecker
         } catch (Exception $exception) {
             $data['error_message'] = $exception->getMessage();
         }
+
         return $data;
     }
 }

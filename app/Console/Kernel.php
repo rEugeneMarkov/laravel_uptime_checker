@@ -2,8 +2,6 @@
 
 namespace App\Console;
 
-use App\Models\Website;
-use App\Jobs\CheckWebsiteJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

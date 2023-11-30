@@ -1,8 +1,8 @@
 @extends('layouts.personal')
 
 @section('content')
-    <div class="container">
-        <div class="row">
+    <div class="container d-flex justify-content-center">
+        <div class="border rounded col-lg-6">
             <div class="col-12 d-flex justify-content-center">
                 <form action="{{ route('personal.website.store') }}" method="POST">
                     @csrf

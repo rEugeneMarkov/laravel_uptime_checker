@@ -2,12 +2,12 @@
 
 namespace App\Services\NotificationServices;
 
-use App\Models\CheckError;
-use App\Models\CheckWebsiteData;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\WebsiteErrorNotification;
 use App\Mail\WebsiteStatusNotification;
+use App\Models\CheckError;
+use App\Models\CheckWebsiteData;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Mail;
 
 class SendNotification
 {
@@ -29,12 +29,13 @@ class SendNotification
             $responseStatus = $websiteData->response_status;
 
             Mail::to($websiteData->website->email)
-            ->queue(new WebsiteStatusNotification($url, $responseStatus));
+                ->queue(new WebsiteStatusNotification($url, $responseStatus));
         }
     }
+
     public function getErrors($subMinutes = 1): Collection
     {
-         return CheckError::where('created_at', '>=', now()->subMinutes($subMinutes))->get();
+        return CheckError::where('created_at', '>=', now()->subMinutes($subMinutes))->get();
     }
 
     public function getwebsitesData($subMinutes = 1): Collection

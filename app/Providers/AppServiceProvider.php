@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Pagination\Paginator;
 use App\Helpers\DashChartHelper;
 use App\Helpers\UptimeChartHelper;
-use Illuminate\Support\ServiceProvider;
 use App\Interfaces\DashChartDataManipulatorInterface;
 use App\Interfaces\UptimeChartDataManipulatorInterface;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

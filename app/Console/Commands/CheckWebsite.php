@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\CheckWebsiteJob;
 use App\Services\WebsiteCheckServices\CommandService;
 use Illuminate\Console\Command;
 

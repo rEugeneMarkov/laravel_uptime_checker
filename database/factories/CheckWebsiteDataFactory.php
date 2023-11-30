@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Website;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +17,7 @@ class CheckWebsiteDataFactory extends Factory
     public function definition(): array
     {
         return [
-            'website_id' => fake()->numberBetween(1, 100),
+            'website_id' => fake()->numberBetween(1, 10),
             'response_status' => fake()->randomElement([200, 404, 500]),
             'execution_time' => fake()->numberBetween(1000, 5000),
             'checked_at' => fake()->dateTimeBetween('-2 day'),

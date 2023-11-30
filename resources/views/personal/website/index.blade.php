@@ -87,15 +87,6 @@
                                                 </td>
                                             </tr>
                                             @endforeach
-                                            
-                                            {{-- <tr class="even">
-                                                <td class="sorting_1">Angelica Ramos</td>
-                                                <td>Chief Executive Officer (CEO)</td>
-                                                <td>London</td>
-                                                <td>47</td>
-                                                <td>2009/10/09</td>
-                                                <td>$1,200,000</td>
-                                            </tr> --}}
                                         </tbody>
                                     </table>
                                 </div>
