@@ -3,18 +3,13 @@
 namespace App\Services\WebsiteCheckServices;
 
 use App\Jobs\CheckWebsiteJob;
-use App\Repositories\CheckWebsiteDataRepository;
+use App\Models\Website;
 
 class CommandService
 {
-    public function __construct(
-        private CheckWebsiteDataRepository $checkWebsiteDataRepository
-    ) {
-    }
-
     public function handle(): void
     {
-        $websites = $this->checkWebsiteDataRepository->getWebsitesForCheck();
+        $websites = Website::active()->forCheck()->get();
 
         foreach ($websites as $website) {
             CheckWebsiteJob::dispatch($website);

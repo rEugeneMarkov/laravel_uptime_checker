@@ -50,11 +50,6 @@ class WebsiteController extends Controller
     {
         $data = $helper->getShowData($website);
 
-        //        $data['website'] = $website;
-        //        $avgExecTime = $data['avgExecTime'];
-        //        $dashChartData = $data['dashChartData'];
-        //        $uptimeChartData = $data['uptimeChartData'];
-        //        return view('personal.website.show', compact('website', 'dashChartData', 'avgExecTime', 'uptimeChartData'));
         return view('personal.website.show')->with($data);
     }
 

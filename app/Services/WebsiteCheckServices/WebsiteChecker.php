@@ -16,7 +16,6 @@ class WebsiteChecker
 
     public function checkWebsite(Website $website): void
     {
-
         $data = $this->checker->check($website->website);
         $data['website_id'] = $website->id;
 
