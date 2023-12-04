@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Helpers\DashChartHelper;
 use App\Helpers\UptimeChartHelper;
-use App\Interfaces\DashChartDataManipulatorInterface;
-use App\Interfaces\UptimeChartDataManipulatorInterface;
+use App\Helpers\WebsiteControllerShowHelper;
+use App\Interfaces\ChartDataManipulatorInterface;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,8 +16,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(DashChartDataManipulatorInterface::class, DashChartHelper::class);
-        $this->app->bind(UptimeChartDataManipulatorInterface::class, UptimeChartHelper::class);
+        $this->app->when(WebsiteControllerShowHelper::class)
+            ->needs(ChartDataManipulatorInterface::class)
+            ->give([
+                DashChartHelper::class,
+                UptimeChartHelper::class,
+            ]);
     }
 
     /**

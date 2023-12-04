@@ -2,39 +2,55 @@
 
 namespace App\Helpers;
 
-use App\Interfaces\UptimeChartDataManipulatorInterface;
+use App\Interfaces\ChartDataManipulatorInterface;
 use App\Models\CheckWebsiteData;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-class UptimeChartHelper implements UptimeChartDataManipulatorInterface
+class UptimeChartHelper implements ChartDataManipulatorInterface
 {
-    public function manipulate(Collection $checks): array
+    public function manipulate(Collection $checks): Collection
     {
-        $chartData = $this->generateChartData($checks);
-        $mergedData = $this->mergeChartData($chartData);
-
-        return array_reverse($mergedData);
+        return $this->chartData($checks)->reverse();
     }
 
-    private function generateChartData(Collection $checks): array
+    private function chartData(Collection $checks)
     {
         $chartData = [];
-        $count = count($checks);
+        $last = [];
 
-        for ($i = 0; $i < $count; $i++) {
-            $check = $checks[$i];
-            $nextCheck = $i < $count - 1 ? $checks[$i + 1] : null;
-
+        foreach ($checks as $check) {
             $status = $this->getStatus($check);
-            $chartData[] = [
+
+            $current = [
                 'start_time' => Carbon::parse($check->checked_at),
-                'end_time' => $nextCheck ? Carbon::parse($nextCheck->checked_at) : Carbon::now(),
                 'status' => $status,
             ];
+
+            if (empty($last)) {
+                $last = $current;
+                continue;
+            }
+
+            if ($current['status'] == $last['status']) {
+                continue;
+            }
+
+            $last['end_time'] = $current['start_time'];
+            $last['duration'] = $this->calculateDuration($last);
+
+            $chartData[] = $last;
+            $last = $current;
         }
 
-        return $chartData;
+        if ($checks->isNotEmpty()) {
+            $last['end_time'] = Carbon::now();
+            $last['duration'] = $this->calculateDuration($last);
+
+            $chartData[] = $last;
+        }
+
+        return collect($chartData);
     }
 
     private function getStatus(CheckWebsiteData $check): string
@@ -44,36 +60,8 @@ class UptimeChartHelper implements UptimeChartDataManipulatorInterface
         return ($check->response_status === 200 && $check->execution_time <= $timeout) ? 'Up' : 'Down';
     }
 
-    private function mergeChartData(array $chartData): array
+    private function calculateDuration(array $last): int
     {
-        $mergedData = [];
-        $previousData = null;
-
-        foreach ($chartData as $data) {
-            if ($previousData && $previousData['status'] === $data['status']) {
-                $previousData['end_time'] = $data['end_time'];
-            } else {
-                if ($previousData) {
-                    $previousData['duration'] = $this
-                        ->calculateDuration($previousData['start_time'], $previousData['end_time']);
-                    $mergedData[] = $previousData;
-                }
-
-                $previousData = $data;
-            }
-        }
-
-        if ($previousData) {
-            $previousData['duration'] = $this
-                ->calculateDuration($previousData['start_time'], $previousData['end_time']);
-            $mergedData[] = $previousData;
-        }
-
-        return $mergedData;
-    }
-
-    private function calculateDuration(Carbon $startTime, Carbon $endTime): int
-    {
-        return $startTime->diffInMinutes($endTime);
+        return $last['start_time']->diffInMinutes($last['end_time']);
     }
 }

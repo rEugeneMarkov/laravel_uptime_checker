@@ -2,30 +2,32 @@
 
 namespace App\Helpers;
 
-use App\Interfaces\DashChartDataManipulatorInterface;
-use App\Interfaces\UptimeChartDataManipulatorInterface;
+use App\Interfaces\ChartDataManipulatorInterface;
 use App\Models\CheckWebsiteData;
 use App\Models\Website;
+use Illuminate\Support\Collection;
 
 class WebsiteControllerShowHelper
 {
+    private array $manipulators;
+
     public function __construct(
-        private DashChartDataManipulatorInterface $dashChartManipulator,
-        private UptimeChartDataManipulatorInterface $uptimeChartManipulator,
+        ChartDataManipulatorInterface ...$manipulators,
     ) {
+        $this->manipulators = $manipulators;
     }
 
-    public function getShowData(Website $website): array
+    public function getShowData(Website $website): Collection
     {
         $checks = CheckWebsiteData::where('website_id', $website->id)->SubDay()->get();
-        $dashChartData = $this->dashChartManipulator->manipulate($checks);
-        $uptimeChartData = $this->uptimeChartManipulator->manipulate($checks);
+        $dashChartData = $this->manipulators[0]->manipulate($checks);
+        $uptimeChartData = $this->manipulators[1]->manipulate($checks);
 
-        return [
-            'dashChartData' => $dashChartData,
-            'uptimeChartData' => $uptimeChartData,
-            'avgExecTime' => collect($dashChartData)->avg('avg_execution_time'),
+        return collect([
+            'dashChartData' => $dashChartData->all(),
+            'uptimeChartData' => $uptimeChartData->all(),
+            'avgExecTime' => $dashChartData->avg('avg_execution_time'),
             'website' => $website,
-        ];
+        ]);
     }
 }

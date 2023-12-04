@@ -48,7 +48,7 @@ class WebsiteController extends Controller
      */
     public function show(Website $website, WebsiteControllerShowHelper $helper): View
     {
-        $data = $helper->getShowData($website);
+        $data = $helper->getShowData($website)->all();
 
         return view('personal.website.show')->with($data);
     }
